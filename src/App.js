@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import React, {useEffect} from 'react';
 import './App.css';
+import AddButton from './components/AddButton.js';
+import Note from './components/Note.js'
+
+
 
 function App() {
+  const [data, setData] = React.useState([]);
+  useEffect(() => {
+    fetch('http://localhost:8000/data')
+    .then(response => response.json())
+    .then(data => {
+      setData(data);
+    })
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {data.map((i, index)=>{return <Note data={{i, index}} key={i.id} />})}
+      <AddButton />
     </div>
   );
 }
